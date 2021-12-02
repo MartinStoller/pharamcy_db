@@ -5,9 +5,10 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-//@Entity //maps Medikament to our database (it allows hibernate to map this object to our db)
-//@Table // this alows the mapping to our specific table in the db
+@Entity //maps Medikament to our database (it allows hibernate to map this object to our db)
+@Table(name="medikamente") // this allows the mapping to our specific table in the db
 public class Medikament {
+    @Id //@Id annotation specifies the primary key of an entity (entities need identifiers -> always needed!)
     private int id;  // Pharmazentralnummer
     private String name;
     private String wirkstoff;
