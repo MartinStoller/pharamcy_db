@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Table(name="medikamente") // this allows the mapping to our specific table in the db
 public class Medikament {
     @Id //@Id annotation specifies the primary key of an entity (entities need identifiers -> always needed!)
-    private int id;  // Pharmazentralnummer
+    private Long id;  // Pharmazentralnummer
     private String name;
     private String wirkstoff;
     private String hersteller;
@@ -18,7 +18,7 @@ public class Medikament {
     public Medikament() {  //empty Constructor (not sure yet if I´ll need it)
     }
 
-    public Medikament(int id, String name, String wirkstoff, String hersteller, int vorrat) {
+    public Medikament(Long id, String name, String wirkstoff, String hersteller, int vorrat) {
         this.id = id;
         this.name = name;
         this.wirkstoff = wirkstoff;
@@ -26,11 +26,11 @@ public class Medikament {
         this.vorrat = vorrat;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

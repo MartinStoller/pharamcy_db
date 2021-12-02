@@ -14,7 +14,8 @@ public class MedikamentController {
 
     private final MedikamentService medikamentService;
 
-    @Autowired
+    @Autowired //Dependency injection (makes sure a Service instance gets passed to Controller - without that
+    //annotation we would have to write this.medService = new medService, which would work as well but is unconventional
     public MedikamentController(MedikamentService medikamentService) {
         this.medikamentService = medikamentService;
     }
