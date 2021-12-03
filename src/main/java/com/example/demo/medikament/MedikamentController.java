@@ -1,11 +1,11 @@
 package com.example.demo.medikament;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/medikament")
@@ -23,6 +23,37 @@ public class MedikamentController {
     @GetMapping
     public List<Medikament> getMedikamente() {
         return medikamentService.getMedikamente();
+    }
+
+    @GetMapping(path="/getmed/{id}")
+    public Optional<Medikament> getSpecificMed(@PathVariable("id") Long id) {
+        return medikamentService.getSpecificMed(id);
+    }
+
+    @PostMapping(path="/addnew")
+    public void registerNewMed(@RequestBody Medikament medikament) {
+        // We take the Response Body as input(Annotation) and map it into a Med (Datatype Medikament), which
+        // then can get added to the db by the method
+        medikamentService.addNewMed(medikament);
+    }
+    @GetMapping(path="/getmed/available")
+    public List<Medikament> getAvailableMeds() {
+    return medikamentService.getAvailableMeds();
+    }
+
+    @DeleteMapping(path="/del/{id}")
+    public void deleteMed(@PathVariable("id") Long id){
+        medikamentService.deleteMed(id);
+    }
+
+    @PutMapping(path="/order/{id}/{ordervolume}")
+    public void reduceVorratAfterOrder(@PathVariable("id") Long id, @PathVariable("ordervolume") int ordervolume){
+        medikamentService.reduceVorratAfterOrder(id, ordervolume);
+    }
+
+    @PutMapping(path="/increase/{id}/{extra}")
+    public void increaseVorrat(@PathVariable("id") Long id, @PathVariable("extra") int extra){
+        medikamentService.increaseVorrat(id, extra);
     }
 
 }
