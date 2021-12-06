@@ -15,7 +15,7 @@ public class Medikament {
     private String hersteller;
     private int vorrat;
 
-    public Medikament() {  //empty Constructor (not sure yet if I´ll need it)
+    public Medikament() {  //empty Constructor ... needed fot hibernate
     }
 
     public Medikament(Long id, String name, String wirkstoff, String hersteller, int vorrat) {
