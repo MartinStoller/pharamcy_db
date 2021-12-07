@@ -1,4 +1,4 @@
-package com.example.demo.medikament;
+package de.haegerconsulting.training.martin.apotheke_stoller.medikament;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

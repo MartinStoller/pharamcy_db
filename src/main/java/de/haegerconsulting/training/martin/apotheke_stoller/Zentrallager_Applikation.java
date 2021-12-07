@@ -1,4 +1,4 @@
-package com.example.demo;
+package de.haegerconsulting.training.martin.apotheke_stoller;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

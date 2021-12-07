@@ -1,4 +1,4 @@
-package com.example.demo.bestellung;
+package de.haegerconsulting.training.martin.apotheke_stoller.bestellung;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

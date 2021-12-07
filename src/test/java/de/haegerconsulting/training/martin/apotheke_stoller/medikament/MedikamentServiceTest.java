@@ -1,4 +1,4 @@
-package com.example.demo.medikament;
+package de.haegerconsulting.training.martin.apotheke_stoller.medikament;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,5 @@
-package com.example.demo.bestellung;
+package de.haegerconsulting.training.martin.apotheke_stoller.bestellung;
 
-import com.example.demo.medikament.Medikament;
-import com.example.demo.medikament.MedikamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

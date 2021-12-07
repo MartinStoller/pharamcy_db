@@ -1,4 +1,4 @@
-package com.example.demo;
+package de.haegerconsulting.training.martin.apotheke_stoller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

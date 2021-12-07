@@ -1,6 +1,5 @@
-package com.example.demo.bestellung;
+package de.haegerconsulting.training.martin.apotheke_stoller.bestellung;
 
-import com.example.demo.bestellung.BestellungRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.example.demo.bestellung;
+package de.haegerconsulting.training.martin.apotheke_stoller.bestellung;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
