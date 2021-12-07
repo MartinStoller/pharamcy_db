@@ -21,11 +21,15 @@ public class MedikamentController {
     }
 
     @GetMapping
+    @ResponseBody
+    @ResponseStatus
     public List<Medikament> getMedikamente() {
         return medikamentService.getMedikamente();
     }
 
     @GetMapping(path="/getmed/{id}")
+    @ResponseBody
+    @ResponseStatus
     public Optional<Medikament> getSpecificMed(@PathVariable("id") Long id) {
         return medikamentService.getSpecificMed(id);
     }
@@ -37,6 +41,8 @@ public class MedikamentController {
         medikamentService.addNewMed(medikament);
     }
     @GetMapping(path="/getmed/available")
+    @ResponseBody
+    @ResponseStatus
     public List<Medikament> getAvailableMeds() {
     return medikamentService.getAvailableMeds();
     }

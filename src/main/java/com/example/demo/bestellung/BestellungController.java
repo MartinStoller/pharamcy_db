@@ -20,11 +20,15 @@ public class BestellungController {
     }
 
     @GetMapping
+    @ResponseBody
+    @ResponseStatus
     public List<Bestellung> getBestellungen() {
         return bestellungService.getBestellungen();
     }
 
     @GetMapping(path="/get/{id}")
+    @ResponseBody
+    @ResponseStatus
     public Optional<Bestellung> getSpecificBestellung(@PathVariable("id") Long id) {
         return bestellungService.getSpecificBestellung(id);
     }
