@@ -1,7 +1,9 @@
 package com.example.demo.bestellung;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "bestellungen")
@@ -20,6 +22,7 @@ public class Bestellung {
     )
     private Long id;
     private Long product_id;
+    @Min(value = 0L, message = "Ordervolume must be at least a Natural Number")  // THis is a validation annotation
     private int amount;
     private int store_id;  //in this hypothetical setting, stores are registered by ID, and all further details about the store such as the address can be derived from that
     private int status;  // 0=order not yet processed, 1=order has been sent, but not database was not yet adjusted, 2=order is fully processed and finished, 99=canceled
@@ -97,5 +100,18 @@ public class Bestellung {
                 ", status=" + status +
                 ", date=" + date +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Bestellung)) return false;
+        Bestellung that = (Bestellung) o;
+        return getAmount() == that.getAmount() && getStore_id() == that.getStore_id() && getStatus() == that.getStatus() && Objects.equals(getId(), that.getId()) && Objects.equals(getProduct_id(), that.getProduct_id()) && Objects.equals(getDate(), that.getDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getProduct_id(), getAmount(), getStore_id(), getStatus(), getDate());
     }
 }

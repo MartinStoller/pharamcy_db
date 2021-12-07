@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "api/v1/medikament")
+@RequestMapping(path = "/medikament")
 public class MedikamentController {
 /*    Class, which contains all the resources for our API -> functions the user can call*/
 
@@ -27,7 +27,7 @@ public class MedikamentController {
         return medikamentService.getMedikamente();
     }
 
-    @GetMapping(path="/getmed/{id}")
+    @GetMapping(path="/{id}")
     @ResponseBody
     @ResponseStatus
     public Optional<Medikament> getSpecificMed(@PathVariable("id") Long id) {
@@ -40,19 +40,19 @@ public class MedikamentController {
         // then can get added to the db by the method
         medikamentService.addNewMed(medikament);
     }
-    @GetMapping(path="/getmed/available")
+    @GetMapping(path="/allavailable")
     @ResponseBody
     @ResponseStatus
     public List<Medikament> getAvailableMeds() {
     return medikamentService.getAvailableMeds();
     }
 
-    @DeleteMapping(path="/del/{id}")
+    @DeleteMapping(path="/{id}")
     public void deleteMed(@PathVariable("id") Long id){
         medikamentService.deleteMed(id);
     }
 
-    @PutMapping(path="/order/{id}/{ordervolume}")
+    @PutMapping(path="/reducestockafterorder/{id}/{ordervolume}")
     public void reduceVorratAfterOrder(@PathVariable("id") Long id, @PathVariable("ordervolume") int ordervolume){
         medikamentService.reduceVorratAfterOrder(id, ordervolume);
     }

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity //maps Medikament to our database (it allows hibernate to map this object to our db)
 @Table(name="medikamente") // this allows the mapping to our specific table in the db
@@ -75,5 +76,18 @@ public class Medikament {
                 ", hersteller='" + hersteller + '\'' +
                 ", vorrat=" + vorrat +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Medikament)) return false;
+        Medikament that = (Medikament) o;
+        return getVorrat() == that.getVorrat() && Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getWirkstoff(), that.getWirkstoff()) && Objects.equals(getHersteller(), that.getHersteller());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getWirkstoff(), getHersteller(), getVorrat());
     }
 }

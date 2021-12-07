@@ -50,8 +50,8 @@ public class BestellungService {
             throw new IllegalStateException("Order with id " + id + " does not exist!");
         }
         Bestellung order = bestellungRepository.findById(id).orElse(null);
-        int[] allowed_status = {0, 1, 2, 3, 99};
-        boolean contains = IntStream.of(allowed_status).anyMatch(x -> x==new_status);
+        int[] allowedStatus = {0, 1, 2, 3, 99};
+        boolean contains = IntStream.of(allowedStatus).anyMatch(x -> x==new_status);
         if (!contains) {
             throw new IllegalStateException("Illegal value: " + new_status + " is not a valid status!");
         }
