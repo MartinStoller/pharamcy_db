@@ -33,7 +33,7 @@ public class BestellungController {
         return bestellungService.getSpecificBestellung(id);
     }
 
-    @PostMapping(path="addnew")
+    @PostMapping(path="/addnew")
     public void createNewOrder(@RequestBody Bestellung bestellung){
         bestellungService.addNewOrder(bestellung);
     }

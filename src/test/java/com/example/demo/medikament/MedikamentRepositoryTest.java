@@ -102,7 +102,7 @@ class MedikamentRepositoryTest {
         //then
         Optional<Medikament> expected_med = Optional.of(morphi);
 
-        assertTrue(returned_med.equals(expected_med));
+        assertEquals(returned_med, expected_med);
     }
 
 }

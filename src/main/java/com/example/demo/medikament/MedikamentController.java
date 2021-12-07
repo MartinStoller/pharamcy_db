@@ -20,7 +20,7 @@ public class MedikamentController {
         this.medikamentService = medikamentService;
     }
 
-    @GetMapping
+    @GetMapping(path="/all")
     @ResponseBody
     @ResponseStatus
     public List<Medikament> getMedikamente() {
