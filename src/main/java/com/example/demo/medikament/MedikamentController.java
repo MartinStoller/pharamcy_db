@@ -1,14 +1,18 @@
 package com.example.demo.medikament;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/medikament")
+
 public class MedikamentController {
 /*    Class, which contains all the resources for our API -> functions the user can call*/
 
@@ -34,13 +38,15 @@ public class MedikamentController {
         return medikamentService.getSpecificMed(id);
     }
 
-    @PostMapping(path="/addnew")
-    public void registerNewMed(@RequestBody Medikament medikament) {
+    @PostMapping
+    public ResponseEntity<String> registerNewMed(@Valid @RequestBody Medikament medikament) { //@Valid valdidates the requestbody based on the constraints, which we have set
+        // If the validation fails, it will trigger a MethodArgumentNotValidException. By default, Spring will translate this exception to a HTTP status 400 (Bad Request).
         // We take the Response Body as input(Annotation) and map it into a Med (Datatype Medikament), which
         // then can get added to the db by the method
         medikamentService.addNewMed(medikament);
+        return ResponseEntity.ok("valid");
     }
-    @GetMapping(path="/allavailable")
+    @GetMapping(path="/allAvailable")
     @ResponseBody
     @ResponseStatus
     public List<Medikament> getAvailableMeds() {
@@ -48,17 +54,18 @@ public class MedikamentController {
     }
 
     @DeleteMapping(path="/{id}")
-    public void deleteMed(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteMed(@PathVariable("id") Long id){
         medikamentService.deleteMed(id);
+        return ResponseEntity.ok("valid");
     }
 
-    @PutMapping(path="/reducestockafterorder/{id}/{ordervolume}")
+    @PutMapping(path="/reduceStockAfterOrder/{id}/{ordervolume}") // I could also do this with a RequestParam such as below
     public void reduceVorratAfterOrder(@PathVariable("id") Long id, @PathVariable("ordervolume") int ordervolume){
         medikamentService.reduceVorratAfterOrder(id, ordervolume);
     }
 
-    @PutMapping(path="/increase/{id}/{extra}")
-    public void increaseVorrat(@PathVariable("id") Long id, @PathVariable("extra") int extra){
+    @PutMapping(path="/increase/{id}") // RequestParam is the alternative to multiple PathVariables
+    public void increaseVorrat(@PathVariable("id") Long id, @RequestParam int extra){
         medikamentService.increaseVorrat(id, extra);
     }
 

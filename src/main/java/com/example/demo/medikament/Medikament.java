@@ -1,19 +1,27 @@
 package com.example.demo.medikament;
 
+import org.hibernate.validator.constraints.Length;
+import org.springframework.validation.annotation.Validated;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity //maps Medikament to our database (it allows hibernate to map this object to our db)
 @Table(name="medikamente") // this allows the mapping to our specific table in the db
+@Validated
 public class Medikament {
     @Id //@Id annotation specifies the primary key of an entity (entities need identifiers -> always needed!)
+    @Size(min=8, max=8, message = "ID must have 8 characters")
     private Long id;  // Pharmazentralnummer
     private String name;
     private String wirkstoff;
     private String hersteller;
+    @Min(value=0, message = "Vorrat can not be negative")
     private int vorrat;
 
     public Medikament() {  //empty Constructor ... needed fot hibernate
