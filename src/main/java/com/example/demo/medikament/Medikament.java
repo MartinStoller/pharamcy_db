@@ -1,12 +1,15 @@
 package com.example.demo.medikament;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.Objects;
@@ -16,7 +19,8 @@ import java.util.Objects;
 @Validated
 public class Medikament {
     @Id //@Id annotation specifies the primary key of an entity (entities need identifiers -> always needed!)
-    @Size(min=8, max=8, message = "ID must have 8 characters")
+    @Min(10000000)
+    @Max(99999999)
     private Long id;  // Pharmazentralnummer
     private String name;
     private String wirkstoff;

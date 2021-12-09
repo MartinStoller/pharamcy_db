@@ -3,10 +3,10 @@ package com.example.demo.bestellung;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 @Service
 public class BestellungService {
@@ -23,22 +23,29 @@ public class BestellungService {
         return bestellungRepository.findAll();
     }
 
-    public Optional<Bestellung> getSpecificBestellung(Long id) {
-        return bestellungRepository.findBestellungdById(id);
+    public Bestellung getSpecificBestellung(Long id) throws InstanceNotFoundException{
+        Optional<Bestellung> bestellungOptional =  bestellungRepository.findById(id);
+        //check if optional is empty, if yes throw, ObjectNotFoundException
+        if (bestellungOptional.isPresent()) {
+            System.out.println(bestellungOptional);
+            return bestellungOptional.get();
+        }
+        throw new InstanceNotFoundException(bestellungOptional.toString());
+
     }
 
     public void addNewOrder(Bestellung bestellung){
-        Optional<Bestellung> newOrder = bestellungRepository.findBestellungdById(bestellung.getId());
-        if (newOrder.isPresent()) {
+        Optional<Bestellung> newBestellung = bestellungRepository.findById(bestellung.getId());
+        if (newBestellung.isPresent()) {
             throw new IllegalStateException("This Order is already in the database!");
         }
         bestellungRepository.save(bestellung);
     }
 
-    public void deleteOrder(Long id){
+    public void deleteOrder(Long id) throws InstanceNotFoundException{
         boolean exists = bestellungRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("Order with id " + id + " does not exist!");
+            throw new InstanceNotFoundException("Order with id " + id + " does not exist!");
         }
         bestellungRepository.deleteById(id);
     }
@@ -49,12 +56,7 @@ public class BestellungService {
         if (!exists) {
             throw new IllegalStateException("Order with id " + id + " does not exist!");
         }
-        Bestellung order = bestellungRepository.findById(id).orElse(null);/*
-        int[] allowedStatus = {0, 1, 2, 3, 4};
-        boolean contains = IntStream.of(allowedStatus).anyMatch(x -> x==new_status);
-        if (!contains) {
-            throw new IllegalStateException("Illegal value: " + new_status + " is not a valid status!");
-        }*/
+        Bestellung order = bestellungRepository.findById(id).orElse(null);
         order.setStatus(new_status);
     }
 }

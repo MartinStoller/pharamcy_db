@@ -98,7 +98,7 @@ class MedikamentRepositoryTest {
         //given
         Long id = 14006277L;
         //when
-        Optional<Medikament> returned_med = testedRepository.findMedById(14006277L);
+        Optional<Medikament> returned_med = testedRepository.findById(14006277L);
         //then
         Optional<Medikament> expected_med = Optional.of(morphi);
 

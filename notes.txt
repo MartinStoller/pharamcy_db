@@ -1,16 +1,22 @@
 @Valid/@Validated:
 
-@Validated annotates a class and indicates that certain parameters of this class need to be validated. Whenever
-we want to validate simple values such as Requestparameters or Variables inside a class, this class needs to be
-annotated with @Valdiated
+@Validated annotates a class (and sometimes a method if different methods have different constraints) and indicates
+that certain parameters of this class need to be validated. Wheneverwe want to validate simple values such as
+Requestparameters or Variables inside a class, this class needs to be annotated with @Valdiated.
 
-@Valid annotates complex types such as request bodies or objects... this checks if the Datatype fullfills all the prerequisits
-Both annotations are useless without more annotations inside the class such as @Min @Max @Size, which determine what is valid and what is not
+@Valid annotates complex types such as request bodies or objects... this checks if the Datatype fullfills all the
+prerequisits.
 
-
-
+Both annotations are useless without more annotations inside the class such as @Min @Max @Size, which determine what is
+valid and what is not
+_______________________________________________________________________________________________________________________
 @Request Parameter:
 Typical url for an imaginary method with 2 request parameters (name and email) would look like:
 localhost:8080/tableXY/changeEmailAndName?name=Maria&email=maria@gmail.com
-the questionmark marks that now the requestparameters will be added. Everything before is the URL to that function. The "&" links multiple RPs
-They are an alternative to using pathvariables
+the questionmark marks that now the requestparameters will be added. Everything before is the URL to that function. The
+"&" links multiple RPs. They are an alternative to using pathvariables
+_______________________________________________________________________________________________________________________
+@Statuscode
+replaces the returnResponse Entity by returning a Responsestatus. By default 200 is returned (=ok).
+Only makes sense to use if logically we need something with more information than only "ok".
+_______________________________________________________________________________________________________________________
