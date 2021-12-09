@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools{
         maven '3.6.3'
-        jdk '17.0.1'
+        jdk 'JDK-17'
     }
 
     environment {
