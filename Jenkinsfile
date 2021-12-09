@@ -89,28 +89,5 @@ pipeline {
                  }
             }
         }
-        stage('Docker_build_image')
-        {
-            steps
-            {
-                script
-                {
-                    dockerImage = docker.build DOCKER_IMAGE_NAME
-                }
-            }
-        }
-        stage('Upload_docker_image_nexus')
-        {
-            steps
-            {
-                script
-                {
-                    docker.withRegistry( 'http://'+NEXUS_DOCKER_URL_REPOSITORY, NEXUS_CREDENTIAL_ID )
-                    {
-                        dockerImage.push('latest')
-                    }
-                }
-            }
-        }
     }
 }
