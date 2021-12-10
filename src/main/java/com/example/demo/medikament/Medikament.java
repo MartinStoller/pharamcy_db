@@ -8,10 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 @Entity //maps Medikament to our database (it allows hibernate to map this object to our db)
@@ -19,11 +16,18 @@ import java.util.Objects;
 @Validated
 public class Medikament {
     @Id //@Id annotation specifies the primary key of an entity (entities need identifiers -> always needed!)
-    @Min(10000000)
-    @Max(99999999)
+    @Min(value = 10000000, message = "Pharmazentralnummer has 8 Characters")
+    @Max(value = 99999999, message = "Pharmazentralnummer has 8 Characters")
+    @NotNull
     private Long id;  // Pharmazentralnummer
+    @NotNull
+    @NotBlank
     private String name;
+    @NotNull
+    @NotBlank
     private String wirkstoff;
+    @NotNull
+    @NotBlank
     private String hersteller;
     @Min(value=0, message = "Vorrat can not be negative")
     private int vorrat;
