@@ -3,12 +3,10 @@ package de.haegerconsulting.training.martin.apotheke_stoller.medikament;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import java.util.Optional;
 
@@ -74,13 +72,72 @@ class MedikamentServiceTest {
 
 
     @Test
-    void TestValidAddNewMed() {
+    void TestValidAddNewMed() throws InstanceAlreadyExistsException {
+        //given
+        Medikament med = new Medikament(
+                12345123L,
+                "lululu",
+                "lilili",
+                "lalala",
+                222);
+        BDDMockito.given(mockedMedRepository.findById(med.getId())).willReturn(Optional.empty());
+
+        //when
+        testedMedikamentService.addNewMed(med);
+
+        //then
+        ArgumentCaptor<Medikament> argumentCaptor = ArgumentCaptor.forClass(Medikament.class); //initiate AC
+        Mockito.verify(mockedMedRepository).save(argumentCaptor.capture()); //check if save() is called AND on which Argument
+        Assertions.assertEquals(argumentCaptor.getValue(), med); //check if that Argument save() was called upon is the right one
 
     }
 
     @Test
-    void TestInvalidAddNewMed() {
+    void TestInvalidAddNewMed(){
+        //Tests AlreadyExistsException, as well as adding Objects with invalid variable inputs
+        //given
 
+        Medikament existingMed = new Medikament(
+                12345123L,
+                "lululu",
+                "lilili",
+                "lalala",
+                222);
+
+        Medikament shortIdMed = new Medikament(
+                123L,
+                "lululu",
+                "lilili",
+                "lalala",
+                222);
+
+        Medikament longIdMed = new Medikament(
+                123456789L,
+                "lululu",
+                "lilili",
+                "lalala",
+                222);
+
+        Medikament emptyNameMed = new Medikament(
+                12345123L,
+                "",
+                "lilili",
+                "lalala",
+                222);
+
+        Medikament nullNameMed = new Medikament(
+                12345123L,
+                null,
+                "lilili",
+                "lalala",
+                222);
+
+        Medikament invalidVorratMed = new Medikament(
+                12345123L,
+                "lululu",
+                "lilili",
+                "lalala",
+                -2);
     }
 
     @Disabled
