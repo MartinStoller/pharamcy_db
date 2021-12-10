@@ -72,9 +72,15 @@ class MedikamentServiceTest {
         Assertions.assertEquals("Medikament not found!", receivedException.getMessage());
     }
 
-    @Disabled
+
     @Test
-    void addNewMed() {
+    void TestValidAddNewMed() {
+
+    }
+
+    @Test
+    void TestInvalidAddNewMed() {
+
     }
 
     @Disabled
