@@ -68,7 +68,7 @@ class MedikamentServiceTest {
 
         //Get thrown Exception and assert if it is the correct one:
         Throwable receivedException = Assertions.assertThrows(InstanceNotFoundException.class,
-                ()->{testedMedikamentService.getSpecificMed(id); });
+                ()-> testedMedikamentService.getSpecificMed(id));
         Assertions.assertEquals("Medikament not found!", receivedException.getMessage());
     }
 
