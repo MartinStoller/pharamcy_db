@@ -3,6 +3,9 @@ package de.haegerconsulting.training.martin.apotheke_stoller.medikament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.naming.LimitExceededException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -30,51 +33,53 @@ public class MedikamentService {
         return medikamentRepository.findAvailableMeds();
     }
 
-    public Optional<Medikament> getSpecificMed(Long id) {
-        return medikamentRepository.findById(id);
+    public Medikament getSpecificMed(Long id) throws InstanceNotFoundException{
+        Optional<Medikament> medikamentOpt =  medikamentRepository.findById(id);
+        if(medikamentOpt.isPresent()){
+            return medikamentOpt.get();
+        }
+        throw new InstanceNotFoundException("Medikament not found!");
     }
 
-    public void addNewMed(Medikament medikament) {
-        Optional<Medikament> newMed = medikamentRepository.findMedById(medikament.getId());
+    public void addNewMed(Medikament medikament) throws InstanceAlreadyExistsException {
+        Optional<Medikament> newMed = medikamentRepository.findById(medikament.getId());
         if (newMed.isPresent()) {
-            throw new IllegalStateException("This Produkt is already in the database!");
+            throw new InstanceAlreadyExistsException("This Produkt is already in the database!");
         }
         medikamentRepository.save(medikament);
     }
 
-    public void deleteMed(Long id) {
+    public void deleteMed(Long id) throws InstanceNotFoundException{
         boolean exists = medikamentRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("Produkt with id " + id + " does not exist!");
+            throw new InstanceNotFoundException("Produkt with id " + id + " does not exist in the Database!");
         }
         medikamentRepository.deleteById(id);
     }
 
     @Transactional //allows us to use transactions(= data exchange) (e.g. getter and setter)
-    public void reduceVorratAfterOrder(Long id, int ordervolume) {
+    public void reduceVorratAfterOrder(Long id, int ordervolume) throws InstanceNotFoundException, LimitExceededException{
         boolean exists = medikamentRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("Produkt with id " + id + " does not exist!");
+            throw new InstanceNotFoundException("Produkt with id " + id + " does not exist!");
         }
         Medikament med = medikamentRepository.findById(id).orElse(null);
         int stock = med.getVorrat();
         if (ordervolume > stock || ordervolume < 0) {
-            throw new IllegalStateException("Produkt with id " + id + " only has " + stock + " units in stock," +
+            throw new LimitExceededException("Produkt with id " + id + " only has " + stock + " units in stock," +
                     "but " + ordervolume + " where ordered! Please choose a valid amount.");
         }
         med.setVorrat(stock - ordervolume);
     }
 
     @Transactional
-    public void increaseVorrat(Long id, int extra) {
+    public void increaseVorrat(Long id, int extra) throws InstanceNotFoundException{
         boolean exists = medikamentRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("Produkt with id " + id + " does not exist!");
+            throw new InstanceNotFoundException("Produkt with id " + id + " does not exist!");
         }
         Medikament med = medikamentRepository.findById(id).orElse(null);
-        if (extra < 0) {
-            throw new IllegalStateException("Illegal value: " + extra + ". Negative numbers cannot be added to the stock!");
-        }
+
         med.setVorrat(med.getVorrat() + extra);
     }
 }

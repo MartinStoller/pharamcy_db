@@ -1,13 +1,18 @@
 package de.haegerconsulting.training.martin.apotheke_stoller.bestellung;
 
+import org.springframework.validation.annotation.Validated;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
 @Table(name = "bestellungen")
-
+@Validated // Tells spring to validate the variables and Parameters of this class (works together with e.g. @Min and @max where the allowed values are defined) (Need to be put on a class!)
 public class Bestellung {
     @Id
     //Sequence Generator generates automatically new Ids for each Order
@@ -20,12 +25,25 @@ public class Bestellung {
             strategy = GenerationType.SEQUENCE,
             generator =  "bestellung_sequence"
     )
+    @NotNull
     private Long id;
+
+    @NotNull
+    @Min(10000000)
+    @Max(99999999)
     private Long product_id;
-    @Min(value = 0L, message = "Ordervolume must be at least a Natural Number")  // THis is a validation annotation
+
+    @Min(value = 0, message = "Ordervolume must be at least a Natural Number")  // THis is a validation annotation
     private int amount;
+
+    @NotNull
     private int store_id;  //in this hypothetical setting, stores are registered by ID, and all further details about the store such as the address can be derived from that
-    private int status;  // 0=order not yet processed, 1=order has been sent, but not database was not yet adjusted, 2=order is fully processed and finished, 99=canceled
+
+    @Min(value = 0, message = "Status needs to be a Number between 0 and 4!")
+    @Max(value = 4, message = "Status needs to be a Number between 0 and 4!")
+    private int status;  // 0=order not yet processed, 1=order has been sent, but not database was not yet adjusted, 2=order is fully processed and finished, 4=canceled
+
+    @NotNull
     private LocalDate date;
 
     // Constructors:
