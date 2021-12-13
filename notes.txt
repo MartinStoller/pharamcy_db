@@ -21,10 +21,15 @@ replaces the returnResponse Entity by returning a Responsestatus. By default 200
 Only makes sense to use if logically we need something with more information than only "ok".
 _______________________________________________________________________________________________________________________
 What is Mocking?
-
 Mocking is a process used in unit testing when the unit being tested has external dependencies. The purpose of mocking
 is to isolate and focus on the code being tested and not on the behavior or state of external dependencies. In mocking,
 the dependencies are replaced by closely controlled replacements objects that simulate the behavior of the real ones.
 AFAIK: The whole point of mocking is to save time and resources by only checking if already tested functions etc are
 invoked instead of actually executing them.
+_______________________________________________________________________________________________________________________
+@Autowired
+When used on Constructors: Autowires the Constructor when a Bean is created (we dont need to call the Constructor ourselves)
+When using on (private) properties: Makes setter methods unnecessary: Spring will automatically assign the calue if
+we write propertyXY = 5
+Can also be used on setter methods but i dont understand what it does there.
 _______________________________________________________________________________________________________________________

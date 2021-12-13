@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
+import javax.management.InvalidAttributeValueException;
 import javax.naming.LimitExceededException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -24,6 +25,7 @@ public class MedikamentController {
 
     @Autowired //Dependency injection (makes sure a Service instance gets passed to Controller - without that
     //annotation we would have to write this.medService = new medService, which would work as well but is unconventional
+    //In other words: a Controller-Constructor is autowired when creating the Bean.
     public MedikamentController(MedikamentService medikamentService) {
         this.medikamentService = medikamentService;
     }
@@ -39,7 +41,7 @@ public class MedikamentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> registerNewMed(@Valid @RequestBody Medikament medikament) throws InstanceAlreadyExistsException {
+    public ResponseEntity<String> registerNewMed(@Valid @RequestBody Medikament medikament) throws InstanceAlreadyExistsException, InvalidAttributeValueException {
         //@Valid validates the requestbody based on the constraints, which we have set. If the validation fails,
         // it will trigger a MethodArgumentNotValidException. By default, Spring will translate this exception to a HTTP status 400 (Bad Request).
         // We take the Response Body as input(Annotation) and map it into a Med (Datatype Medikament), which
@@ -47,6 +49,7 @@ public class MedikamentController {
         medikamentService.addNewMed(medikament);
         return ResponseEntity.ok("valid");
     }
+
     @GetMapping(path="/allAvailable")
     public List<Medikament> getAvailableMeds() {
     return medikamentService.getAvailableMeds();
