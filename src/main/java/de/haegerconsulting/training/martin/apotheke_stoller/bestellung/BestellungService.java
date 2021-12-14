@@ -3,6 +3,7 @@ package de.haegerconsulting.training.martin.apotheke_stoller.bestellung;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -27,17 +28,15 @@ public class BestellungService {
         Optional<Bestellung> bestellungOptional =  bestellungRepository.findById(id);
         //check if optional is empty, if yes throw, ObjectNotFoundException
         if (bestellungOptional.isPresent()) {
-            System.out.println(bestellungOptional);
             return bestellungOptional.get();
         }
         throw new InstanceNotFoundException(bestellungOptional.toString());
-
     }
 
-    public void addNewOrder(Bestellung bestellung){
+    public void addNewOrder(Bestellung bestellung) throws InstanceAlreadyExistsException {
         Optional<Bestellung> newBestellung = bestellungRepository.findById(bestellung.getId());
         if (newBestellung.isPresent()) {
-            throw new IllegalStateException("This Order is already in the database!");
+            throw new InstanceAlreadyExistsException("This Order is already in the database!");
         }
         bestellungRepository.save(bestellung);
     }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -37,7 +38,7 @@ public class BestellungController {
     }
 
     @PostMapping
-    public void createNewOrder(@Valid @RequestBody Bestellung bestellung){
+    public void createNewOrder(@Valid @RequestBody Bestellung bestellung) throws InstanceAlreadyExistsException {
         bestellungService.addNewOrder(bestellung);
     }
 

@@ -1,6 +1,5 @@
 package de.haegerconsulting.training.martin.apotheke_stoller.medikament;
 
-import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,28 +8,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import lombok.SneakyThrows;
-import org.springframework.web.context.request.WebRequest;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
 
 @WebMvcTest(MedikamentController.class) // replaces the @SpringbootTestannotion: the full Spring application context is started but without the server. In the brackets we write where to look for the Endpoint
 public class MedikamentControllerTest {
@@ -51,8 +34,7 @@ public class MedikamentControllerTest {
     @Test
     void shouldCreateMed() throws Exception {
         String validObject = """
-                {
-                    "id": 12345278,
+                {   "id": 12345278,
                     "name": "lalala",
                     "wirkstoff": "lululu",
                     "hersteller": "lelele",
