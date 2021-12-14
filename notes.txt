@@ -33,3 +33,6 @@ When using on (private) properties: Makes setter methods unnecessary: Spring wil
 we write propertyXY = 5
 Can also be used on setter methods but i dont understand what it does there.
 _______________________________________________________________________________________________________________________
+Custom Exceptionhandling in order to be able to test @Min Validation for Requestparameter:
+I copied the code from here and subsequently simplified it as much as possible.
+https://stackoverflow.com/questions/56738655/requestparam-javax-validation-junit-rest-controller-testing

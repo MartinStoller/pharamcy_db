@@ -8,21 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
-import javax.management.InvalidAttributeValueException;
 import javax.naming.LimitExceededException;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/medikament")
 @Validated
 public class MedikamentController {
 /*    Class, which contains all the resources for our API -> functions the user can call*/
-
     private final MedikamentService medikamentService;
-
     @Autowired //Dependency injection (makes sure a Service instance gets passed to Controller - without that
     //annotation we would have to write this.medService = new medService, which would work as well but is unconventional
     //In other words: a Controller-Constructor is autowired when creating the Bean.
@@ -41,7 +39,7 @@ public class MedikamentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> registerNewMed(@Valid @RequestBody Medikament medikament) throws InstanceAlreadyExistsException, InvalidAttributeValueException {
+    public ResponseEntity<String> registerNewMed(@Valid @RequestBody Medikament medikament) throws InstanceAlreadyExistsException {
         //@Valid validates the requestbody based on the constraints, which we have set. If the validation fails,
         // it will trigger a MethodArgumentNotValidException. By default, Spring will translate this exception to a HTTP status 400 (Bad Request).
         // We take the Response Body as input(Annotation) and map it into a Med (Datatype Medikament), which
@@ -70,9 +68,19 @@ public class MedikamentController {
         return ResponseEntity.ok("valid");
     }
 
+/*    @ControllerAdvice
+    public class ExceptionhandlerForConstraintViolationException{
+        @ResponseBody
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        @ExceptionHandler(ConstraintViolationException.class)
+        ApiError cve(ConstraintViolationException)(ConstraintViolationException e) {
+            return BAD_REQUEST.apply
+        }
+    }*/
+
     @PutMapping(path="/increaseVorratBy/{id}") // RequestParam is the alternative to multiple PathVariables
     public ResponseEntity<String> increaseVorrat(@PathVariable("id") Long id,
-                               @RequestParam @Min(value = 0, message = "value must not be negative!") int extra)
+                               @RequestParam @Min(value = 1, message = "Ordervolume must be at least 1!") int extra)
             throws InstanceNotFoundException{
         medikamentService.increaseVorrat(id, extra);
         return ResponseEntity.ok("valid");

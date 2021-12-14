@@ -1,7 +1,5 @@
 package de.haegerconsulting.training.martin.apotheke_stoller.medikament;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;

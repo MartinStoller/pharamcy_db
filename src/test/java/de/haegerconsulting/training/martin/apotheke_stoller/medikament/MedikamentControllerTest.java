@@ -1,23 +1,36 @@
 package de.haegerconsulting.training.martin.apotheke_stoller.medikament;
 
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import lombok.SneakyThrows;
+import org.springframework.web.context.request.WebRequest;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 
 @WebMvcTest(MedikamentController.class) // replaces the @SpringbootTestannotion: the full Spring application context is started but without the server. In the brackets we write where to look for the Endpoint
 public class MedikamentControllerTest {
@@ -37,13 +50,14 @@ public class MedikamentControllerTest {
 
     @Test
     void shouldCreateMed() throws Exception {
-        String validObject = "{\n" +
-                "    \"id\": 12345278,\n" +
-                "    \"name\": \"lalala\",\n" +
-                "    \"wirkstoff\": \"lululu\",\n" +
-                "    \"hersteller\": \"lelele\",\n" +
-                "    \"vorrat\": 22\n" +
-                "}";
+        String validObject = """
+                {
+                    "id": 12345278,
+                    "name": "lalala",
+                    "wirkstoff": "lululu",
+                    "hersteller": "lelele",
+                    "vorrat": 22
+                }""";
 
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/medikament")
@@ -56,45 +70,50 @@ public class MedikamentControllerTest {
 
 
     public static Stream<String> getInvalidMeds() {
-        String idTooShort = "{\n" +
-                "    \"id\": 1234527,\n" +
-                "    \"name\": \"lalala\",\n" +
-                "    \"wirkstoff\": \"lululu\",\n" +
-                "    \"hersteller\": \"lelele\",\n" +
-                "    \"vorrat\": 22\n" +
-                "}";
+        String idTooShort = """
+                {
+                    "id": 1234527,
+                    "name": "lalala",
+                    "wirkstoff": "lululu",
+                    "hersteller": "lelele",
+                    "vorrat": 22
+                }""";
 
-        String idTooLong = "{\n" +
-                "    \"id\": 123452789,\n" +
-                "    \"name\": \"lalala\",\n" +
-                "    \"wirkstoff\": \"lululu\",\n" +
-                "    \"hersteller\": \"lelele\",\n" +
-                "    \"vorrat\": 22\n" +
-                "}";
+        String idTooLong = """
+                {
+                    "id": 123452789,
+                    "name": "lalala",
+                    "wirkstoff": "lululu",
+                    "hersteller": "lelele",
+                    "vorrat": 22
+                }""";
 
-        String nameIsNone = "{\n" +
-                "    \"id\": 12345278,\n" +
-                "    \"name\": ,\n" +
-                "    \"wirkstoff\": \"lululu\",\n" +
-                "    \"hersteller\": \"lelele\",\n" +
-                "    \"vorrat\": 22\n" +
-                "}";
+        String nameIsNone = """
+                {
+                    "id": 12345278,
+                    "name": ,
+                    "wirkstoff": "lululu",
+                    "hersteller": "lelele",
+                    "vorrat": 22
+                }""";
 
-        String nameIsEmpty = "{\n" +
-                "    \"id\": 12345278,\n" +
-                "    \"name\": \"\",\n" +
-                "    \"wirkstoff\": \"lululu\",\n" +
-                "    \"hersteller\": \"lelele\",\n" +
-                "    \"vorrat\": 22\n" +
-                "}";
+        String nameIsEmpty = """
+                {
+                    "id": 12345278,
+                    "name": "",
+                    "wirkstoff": "lululu",
+                    "hersteller": "lelele",
+                    "vorrat": 22
+                }""";
 
-        String vorratIsNegative = "{\n" +
-                "    \"id\": 12345278,\n" +
-                "    \"name\": \"lalala\",\n" +
-                "    \"wirkstoff\": \"lululu\",\n" +
-                "    \"hersteller\": \"lelele\",\n" +
-                "    \"vorrat\": -22\n" +
-                "}";
+        String vorratIsNegative = """
+                {
+                    "id": 12345278,
+                    "name": "lalala",
+                    "wirkstoff": "lululu",
+                    "hersteller": "lelele",
+                    "vorrat": -22
+                }""";
 
         return Stream.of(idTooShort, idTooLong, nameIsNone, nameIsEmpty, vorratIsNegative);
 
@@ -111,6 +130,15 @@ public class MedikamentControllerTest {
                 .andExpect(status().isBadRequest()
                 );
 
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1, -2})
+
+    void testInvalidIncreaseVorrat(int extra) throws Exception{
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.put("/medikament/increaseVorratBy/33445566").param("extra", String.valueOf(extra)))
+                .andExpect(status().isBadRequest());
     }
 
 }
