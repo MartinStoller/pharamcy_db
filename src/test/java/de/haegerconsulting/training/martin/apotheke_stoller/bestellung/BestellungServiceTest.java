@@ -6,15 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class BestellungServiceTest {
@@ -114,7 +111,7 @@ class BestellungServiceTest {
         BDDMockito.given(mockedBestellungRepository.existsById(id)).willReturn(Boolean.TRUE);
 
         //when
-        testedBestellungService.deleteOrder(id);
+        testedBestellungService.deleteExistingById(id);
 
         //then
         Mockito.verify(mockedBestellungRepository).deleteById(argumentCaptorId.capture());
@@ -128,7 +125,7 @@ class BestellungServiceTest {
         BDDMockito.given(mockedBestellungRepository.existsById(id)).willReturn(Boolean.FALSE);
 
         Assertions.assertThrows(InstanceNotFoundException.class, () -> {
-            testedBestellungService.deleteOrder(id);
+            testedBestellungService.deleteExistingById(id);
         });
     }
 

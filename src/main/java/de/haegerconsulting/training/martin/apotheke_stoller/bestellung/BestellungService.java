@@ -14,7 +14,6 @@ public class BestellungService {
 
     private final BestellungRepository bestellungRepository;
 
-    @Autowired
     public BestellungService(BestellungRepository bestellungRepository) {
         this.bestellungRepository = bestellungRepository;
     }
@@ -25,15 +24,11 @@ public class BestellungService {
     }
 
     public Bestellung getSpecificBestellung(Long id) throws InstanceNotFoundException{
-        Optional<Bestellung> bestellungOptional =  bestellungRepository.findById(id);
-        //check if optional is empty, if yes throw, ObjectNotFoundException
-        if (bestellungOptional.isPresent()) {
-            return bestellungOptional.get();
-        }
-        throw new InstanceNotFoundException(bestellungOptional.toString());
+        return bestellungRepository.findById(id).orElseThrow(() -> new InstanceNotFoundException("Could not find Order with id " + id));
     }
 
     public void addNewOrder(Bestellung bestellung) throws InstanceAlreadyExistsException {
+        // since we're not expecting an id while creating a new order, checking if this order does already exist is not really necessary
         Optional<Bestellung> newBestellung = bestellungRepository.findById(bestellung.getId());
         if (newBestellung.isPresent()) {
             throw new InstanceAlreadyExistsException("This Order is already in the database!");
@@ -41,7 +36,7 @@ public class BestellungService {
         bestellungRepository.save(bestellung);
     }
 
-    public void deleteOrder(Long id) throws InstanceNotFoundException{
+    public void deleteExistingById(Long id) throws InstanceNotFoundException{
         boolean exists = bestellungRepository.existsById(id);
         if (!exists) {
             throw new InstanceNotFoundException("Order with id " + id + " does not exist!");
@@ -53,7 +48,7 @@ public class BestellungService {
     public void changeStatus(Long id, int new_status){
         boolean exists = bestellungRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("Order with id " + id + " does not exist!");
+            throw new IllegalStateException("Order with id " + id + " does not exist!"); //Nullpointerexception would be better
         }
         Bestellung order = bestellungRepository.findById(id).orElse(null);
         order.setStatus(new_status);

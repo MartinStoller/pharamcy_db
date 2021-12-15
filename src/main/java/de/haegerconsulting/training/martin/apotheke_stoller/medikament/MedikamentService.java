@@ -17,8 +17,6 @@ public class MedikamentService {
     /*    Get Repository for data access:*/
     private final MedikamentRepository medikamentRepository;
 
-    @Autowired //Dependency injection (makes sure the Service gets passed an instance of Repository - without that
-    //annotation we would have to write this.medRepository = new medRepository, which would work as well but is unconventional
     public MedikamentService(MedikamentRepository medikamentRepository) {
         this.medikamentRepository = medikamentRepository;
     }
@@ -34,11 +32,8 @@ public class MedikamentService {
     }
 
     public Medikament getSpecificMed(Long id) throws InstanceNotFoundException{
-        Optional<Medikament> medikamentOpt =  medikamentRepository.findById(id);
-        if(medikamentOpt.isPresent()){
-            return medikamentOpt.get();
-        }
-        throw new InstanceNotFoundException("Medikament not found!");
+        Medikament med =  medikamentRepository.findById(id).orElseThrow(() -> new InstanceNotFoundException("Medikament not found!"));
+        return med;
     }
 
     public void addNewMed(Medikament medikament) throws InstanceAlreadyExistsException {

@@ -6,10 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @ControllerAdvice //allows the Exceptionhandler to be shared with @controller classes
 public class WebApiExceptionhandler {

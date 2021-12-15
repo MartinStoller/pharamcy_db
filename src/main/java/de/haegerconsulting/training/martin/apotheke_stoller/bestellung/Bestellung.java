@@ -58,15 +58,6 @@ public class Bestellung {
         this.date = date;
     }
 
-    public Bestellung(Long id, Long product_id, int amount, int store_id, int status, LocalDate date) {
-        //not sure if i ever need the constructor
-        this.product_id = product_id;
-        this.amount = amount;
-        this.store_id = store_id;
-        this.status = status;
-        this.date = date;
-    }
-
     //Getter and setter:
     public Long getId() {
         return id;

@@ -16,14 +16,12 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/medikament")
+@RequestMapping(path = "/medikament") //should be plural
 @Validated
 public class MedikamentController {
 /*    Class, which contains all the resources for our API -> functions the user can call*/
     private final MedikamentService medikamentService;
-    @Autowired //Dependency injection (makes sure a Service instance gets passed to Controller - without that
-    //annotation we would have to write this.medService = new medService, which would work as well but is unconventional
-    //In other words: a Controller-Constructor is autowired when creating the Bean.
+
     public MedikamentController(MedikamentService medikamentService) {
         this.medikamentService = medikamentService;
     }
@@ -55,7 +53,7 @@ public class MedikamentController {
 
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT) // replaces the returnResponse Entity by returning a Responsestatus
     @DeleteMapping(path="/{id}")
-    public void deleteMed(@PathVariable("id") Long id) throws InstanceNotFoundException {
+    public void deleteMed(@PathVariable("id") Long id) throws InstanceNotFoundException{ //to be precise it should be resourceNotFound because Instances are not known in a restful api
         medikamentService.deleteMed(id);
 /*        return ResponseEntity.ok("valid");*/
     }
@@ -68,15 +66,6 @@ public class MedikamentController {
         return ResponseEntity.ok("valid");
     }
 
-/*    @ControllerAdvice
-    public class ExceptionhandlerForConstraintViolationException{
-        @ResponseBody
-        @ResponseStatus(HttpStatus.BAD_REQUEST)
-        @ExceptionHandler(ConstraintViolationException.class)
-        ApiError cve(ConstraintViolationException)(ConstraintViolationException e) {
-            return BAD_REQUEST.apply
-        }
-    }*/
 
     @PutMapping(path="/increaseVorratBy/{id}") // RequestParam is the alternative to multiple PathVariables
     public ResponseEntity<String> increaseVorrat(@PathVariable("id") Long id,
