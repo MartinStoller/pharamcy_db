@@ -46,7 +46,7 @@ public class BestellungController {
 
     @PutMapping(path="/status/{id}/{new}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void changeStatus(@PathVariable("id") Long id, @PathVariable("new") @Min(0) @Max(4) int new_status){
+    public void changeStatus(@PathVariable("id") Long id, @PathVariable("new") @Min(0) @Max(3) int new_status){
         //actually i should make "new" a request parameter... passing it as pathvariable is bad practice
         bestellungService.changeStatus(id, new_status);
     }

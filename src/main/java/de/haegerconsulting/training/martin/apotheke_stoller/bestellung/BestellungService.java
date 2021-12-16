@@ -51,6 +51,6 @@ public class BestellungService {
             throw new IllegalStateException("Order with id " + id + " does not exist!"); //Nullpointerexception would be better
         }
         Bestellung order = bestellungRepository.findById(id).orElse(null);
-        order.setStatus(new_status);
+        order.setStatus(BestellungStatus.changeStatus(new_status));
     }
 }

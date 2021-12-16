@@ -92,7 +92,7 @@ class BestellungServiceTest {
                 11223344L,
                 10,
                 100044,
-                2,
+                1,
                 LocalDate.of(2021, Month.APRIL, 5));
         BDDMockito.given(mockedBestellungRepository.findById(bestellung.getId())).willReturn(Optional.of(bestellung));
 
@@ -146,6 +146,6 @@ class BestellungServiceTest {
         testedBestellungService.changeStatus(id, newStatus);
 
         //then
-        Assertions.assertEquals(bestellung.getStatus(), newStatus);
+        Assertions.assertEquals(bestellung.getStatus(), BestellungStatus.changeStatus(newStatus));
     }
 }

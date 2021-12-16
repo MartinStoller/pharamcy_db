@@ -38,9 +38,8 @@ public class Bestellung {
     @NotNull
     private int store_id;  //in this hypothetical setting, stores are registered by ID, and all further details about the store such as the address can be derived from that
 
-    @Min(value = 0, message = "Status needs to be a Number between 0 and 4!")
-    @Max(value = 4, message = "Status needs to be a Number between 0 and 4!")
-    private int status;  // 0=order not yet processed, 1=order has been sent, but not database was not yet adjusted, 2=order is fully processed and finished, 4=canceled
+    @NotNull
+    private BestellungStatus status;  // 0=order not yet processed, 1=order has been sent, but not database was not yet adjusted, 2=order is fully processed and finished, 3=canceled
 
     @NotNull
     private LocalDate date;
@@ -54,7 +53,8 @@ public class Bestellung {
         this.product_id = product_id;
         this.amount = amount;
         this.store_id = store_id;
-        this.status = status;
+/*        this.status = BestellungStatus.CANCELED;*/
+        this.status = BestellungStatus.changeStatus(status);
         this.date = date;
     }
 
@@ -91,11 +91,11 @@ public class Bestellung {
         this.store_id = store_id;
     }
 
-    public int getStatus() {
+    public BestellungStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(BestellungStatus status) {
         this.status = status;
     }
 

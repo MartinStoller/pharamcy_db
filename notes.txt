@@ -38,5 +38,6 @@ I copied the code from here and subsequently simplified it as much as possible.
 https://stackoverflow.com/questions/56738655/requestparam-javax-validation-junit-rest-controller-testing
 ______________________________________________________________________________________________________________________
 @Transactional
-If we use setter, the changes are taken over in teh DB
-Also allows multiple requests to be handled and Rollback if something fails.
+If we use setter in a transactional class, the changes made to the object are directly transfered to the DB as well.
+Also allows multiple requests to be handled and Rollback(= back to the status before execution at runtime if something
+fails during the execution.

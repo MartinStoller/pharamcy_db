@@ -39,7 +39,7 @@ public class BestellungConfig {
                     12222678L,
                     8,
                     102232,
-                    4,
+                    3,
                     LocalDate.of(2019, Month.JULY, 1)
             );
             repository.saveAll(List.of(order1, order2, order3, order4));
