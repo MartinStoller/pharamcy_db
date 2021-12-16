@@ -1,6 +1,5 @@
 package de.haegerconsulting.training.martin.apotheke_stoller.bestellung;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -45,12 +44,12 @@ public class BestellungService {
     }
 
     @Transactional
-    public void changeStatus(Long id, int new_status){
+    public void changeStatus(Long id, BestellungStatus new_status){
         boolean exists = bestellungRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException("Order with id " + id + " does not exist!"); //Nullpointerexception would be better
         }
         Bestellung order = bestellungRepository.findById(id).orElse(null);
-        order.setStatus(BestellungStatus.changeStatus(new_status));
+        order.setStatus(new_status);
     }
 }

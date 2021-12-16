@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -46,7 +44,7 @@ public class BestellungController {
 
     @PutMapping(path="/status/{id}/{new}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void changeStatus(@PathVariable("id") Long id, @PathVariable("new") @Min(0) @Max(3) int new_status){
+    public void changeStatus(@PathVariable("id") Long id, @PathVariable("new") BestellungStatus new_status){
         //actually i should make "new" a request parameter... passing it as pathvariable is bad practice
         bestellungService.changeStatus(id, new_status);
     }

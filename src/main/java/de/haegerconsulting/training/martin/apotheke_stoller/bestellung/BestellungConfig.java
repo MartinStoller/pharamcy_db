@@ -17,7 +17,7 @@ public class BestellungConfig {
                     11223344L,
                     10,
                     100044,
-                    2,
+                    BestellungStatus.NOT_YET_PROCESSED,
                     LocalDate.of(2021, Month.APRIL, 5)
             );
 
@@ -25,21 +25,21 @@ public class BestellungConfig {
                     12345678L,
                     2,
                     102030,
-                    1,
+                    BestellungStatus.SENT,
                     LocalDate.of(2020, Month.AUGUST, 30)
             );
             Bestellung order3 = new Bestellung(
                     12345678L,
                     21,
                     102232,
-                    0,
+                    BestellungStatus.FULLY_PROCESSED,
                     LocalDate.of(2021, Month.AUGUST, 21)
             );
             Bestellung order4 = new Bestellung(
                     12222678L,
                     8,
                     102232,
-                    3,
+                    BestellungStatus.CANCELED,
                     LocalDate.of(2019, Month.JULY, 1)
             );
             repository.saveAll(List.of(order1, order2, order3, order4));

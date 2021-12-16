@@ -40,7 +40,7 @@ class BestellungServiceTest {
                 11223344L,
                 10,
                 100044,
-                2,
+                BestellungStatus.SENT,
                 LocalDate.of(2021, Month.APRIL, 5));
         BDDMockito.given(mockedBestellungRepository.findById(id)).willReturn(Optional.of(bestellung));
 
@@ -72,7 +72,7 @@ class BestellungServiceTest {
                 11223344L,
                 10,
                 100044,
-                2,
+                BestellungStatus.SENT,
                 LocalDate.of(2021, Month.APRIL, 5));
         BDDMockito.given(mockedBestellungRepository.findById(bestellung.getId())).willReturn(Optional.empty());
 
@@ -92,7 +92,7 @@ class BestellungServiceTest {
                 11223344L,
                 10,
                 100044,
-                1,
+                BestellungStatus.SENT,
                 LocalDate.of(2021, Month.APRIL, 5));
         BDDMockito.given(mockedBestellungRepository.findById(bestellung.getId())).willReturn(Optional.of(bestellung));
 
@@ -132,12 +132,12 @@ class BestellungServiceTest {
     @Test
     void TestValidChangeStatus() {
         Long id = 2L;
-        int newStatus = 3;
+        BestellungStatus newStatus = BestellungStatus.CANCELED;
         Bestellung bestellung = new Bestellung(
                 11223344L,
                 10,
                 100044,
-                2,
+                BestellungStatus.FULLY_PROCESSED,
                 LocalDate.of(2021, Month.APRIL, 5));
         BDDMockito.given(mockedBestellungRepository.existsById(id)).willReturn(Boolean.TRUE);
         BDDMockito.given(mockedBestellungRepository.findById(id)).willReturn(Optional.of(bestellung));
@@ -146,6 +146,6 @@ class BestellungServiceTest {
         testedBestellungService.changeStatus(id, newStatus);
 
         //then
-        Assertions.assertEquals(bestellung.getStatus(), BestellungStatus.changeStatus(newStatus));
+        Assertions.assertEquals(bestellung.getStatus(), newStatus);
     }
 }
