@@ -44,3 +44,6 @@ fails during the execution.
 _______________________________________________________________________________________________________________________
 How to name Rest API URLs:
 https://medium.com/@mwaysolutions/10-best-practices-for-better-restful-api-cbe81b06f291
+_______________________________________________________________________________________________________________________
+Code-coverage:
+a generally good value is about 80%. Can be checked by right click tge green java folder -> run all tests with coverage
