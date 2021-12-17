@@ -41,3 +41,6 @@ ________________________________________________________________________________
 If we use setter in a transactional class, the changes made to the object are directly transfered to the DB as well.
 Also allows multiple requests to be handled and Rollback(= back to the status before execution at runtime if something
 fails during the execution.
+_______________________________________________________________________________________________________________________
+How to name Rest API URLs:
+https://medium.com/@mwaysolutions/10-best-practices-for-better-restful-api-cbe81b06f291

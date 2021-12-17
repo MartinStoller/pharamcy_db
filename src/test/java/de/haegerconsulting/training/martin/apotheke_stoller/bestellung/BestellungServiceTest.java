@@ -105,7 +105,7 @@ class BestellungServiceTest {
     @Captor
     ArgumentCaptor<Long> argumentCaptorId; //initiate AC
     @Test
-    void TestValidDeleteOrder() throws InstanceNotFoundException {
+    void testValidDeleteOrder() throws InstanceNotFoundException {
         //given
         Long id = 2L;
         BDDMockito.given(mockedBestellungRepository.existsById(id)).willReturn(Boolean.TRUE);
@@ -120,7 +120,7 @@ class BestellungServiceTest {
     }
 
     @Test
-    void TestInvalidDeleteOrder() {
+    void testInvalidDeleteOrder() {
         Long id = 2L;
         BDDMockito.given(mockedBestellungRepository.existsById(id)).willReturn(Boolean.FALSE);
 
@@ -130,7 +130,7 @@ class BestellungServiceTest {
     }
 
     @Test
-    void TestValidChangeStatus() {
+    void testValidChangeStatus() {
         Long id = 2L;
         BestellungStatus newStatus = BestellungStatus.CANCELED;
         Bestellung bestellung = new Bestellung(

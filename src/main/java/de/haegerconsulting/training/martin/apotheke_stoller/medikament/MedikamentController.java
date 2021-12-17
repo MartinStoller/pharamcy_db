@@ -20,7 +20,7 @@ import java.util.List;
 @Validated
 public class MedikamentController {
 /*    Class, which contains all the resources for our API -> functions the user can call*/
-    private final MedikamentService medikamentService;
+    private final MedikamentService medikamentService; // creates Service instance
 
     public MedikamentController(MedikamentService medikamentService) {
         this.medikamentService = medikamentService;

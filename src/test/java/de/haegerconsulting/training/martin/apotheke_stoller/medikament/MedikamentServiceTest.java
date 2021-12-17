@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import javax.naming.LimitExceededException;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -22,22 +23,28 @@ class MedikamentServiceTest {
 
     private MedikamentService testedMedikamentService;
 
+    @Captor
+    ArgumentCaptor<Medikament> argumentCaptorMed = ArgumentCaptor.forClass(Medikament.class); //initiate AC
+
+    @Captor
+    ArgumentCaptor<Long> argumentCaptorLong; //initiate AC
+
     @BeforeEach
     void setUp(){
         testedMedikamentService = new MedikamentService(mockedMedRepository); // create a new Service instance before each test
+    //since the service instance does not change in this software, it might be unnecessary to create a new instance before each test
     }
 
     @Test
-    void TestgetAllMedikamente() {
+    void testgetAllMedikamente() {
         //when
-        testedMedikamentService.getMedikamente();
+        List<Medikament> output = testedMedikamentService.getMedikamente();
         //then
         Mockito.verify(mockedMedRepository).findAll();  // "verify that the findAll() method was invoked
-        // (doesnt actually execute, which is probably the whole point about mocking)
     }
 
     @Test
-    void TestgetAvailableMeds() {
+    void testgetAvailableMeds() {
         //when
         testedMedikamentService.getAvailableMeds();
         //then
@@ -45,7 +52,7 @@ class MedikamentServiceTest {
     }
 
     @Test
-    void TestValidGetSpecificMed() throws InstanceNotFoundException {
+    void testValidGetSpecificMed() throws InstanceNotFoundException {
         // given
         Long id = 12345123L;
         Medikament med = new Medikament(
@@ -64,7 +71,7 @@ class MedikamentServiceTest {
     }
 
     @Test
-    void TestInvalidGetSpecificMed() {
+    void testInvalidGetSpecificMed() {
         // given
         Long id = 11223344L;
         BDDMockito.given(mockedMedRepository.findById(id)).willReturn(Optional.empty());
@@ -75,11 +82,8 @@ class MedikamentServiceTest {
         Assertions.assertEquals("Medikament not found!", receivedException.getMessage());
     }
 
-    @Captor
-    ArgumentCaptor<Medikament> argumentCaptorMed = ArgumentCaptor.forClass(Medikament.class); //initiate AC
-
     @Test
-    void TestValidAddNewMed() throws InstanceAlreadyExistsException {
+    void testValidAddNewMed() throws InstanceAlreadyExistsException {
         //given
         Medikament med = new Medikament(
                 12345123L,
@@ -98,7 +102,7 @@ class MedikamentServiceTest {
     }
 
     @Test
-    void TestInvalidAddNewMed(){
+    void testInvalidAddNewMed(){
         //Tests AlreadyExistsException. The fact that AddNewMed() was invoked means that a valid Medikament object does exist
         // because it takes one as argument. -> If I want to test for empty strings etc, I need to move up to the Repository
         //given
@@ -114,11 +118,9 @@ class MedikamentServiceTest {
         Assertions.assertThrows(InstanceAlreadyExistsException.class, () -> {testedMedikamentService.addNewMed(existingMed);});
     }
 
-    @Captor
-    ArgumentCaptor<Long> argumentCaptorLong; //initiate AC
 
     @Test
-    void TestDeleteValidMed() throws InstanceNotFoundException {
+    void testDeleteValidMed() throws InstanceNotFoundException {
         //given
         Long id = 12345678L;
         BDDMockito.given(mockedMedRepository.existsById(id)).willReturn(Boolean.TRUE);
@@ -132,7 +134,7 @@ class MedikamentServiceTest {
     }
 
     @Test
-    void TestDeleteInvalidMed() {
+    void testDeleteInvalidMed() {
         //given
         Long id = 12345678L;
         BDDMockito.given(mockedMedRepository.existsById(id)).willReturn(Boolean.FALSE);
@@ -147,7 +149,7 @@ class MedikamentServiceTest {
 
     @ParameterizedTest
     @MethodSource("getValuesForTestValidreduceVorratAfterOrder")
-    void TestValidreduceVorratAfterOrder(int[] data) throws InstanceNotFoundException, LimitExceededException {
+    void testValidreduceVorratAfterOrder(int[] data) throws InstanceNotFoundException, LimitExceededException {
         //given
         Long id = 12345678L;
         Medikament med = new Medikament(
@@ -171,7 +173,7 @@ class MedikamentServiceTest {
     }
 
     @Test
-    void TestInstanceNotFoundReduceVorratAfterOrder() {
+    void testInstanceNotFoundReduceVorratAfterOrder() {
         //given
         Long id = 12345678L;
         BDDMockito.given(mockedMedRepository.existsById(id)).willReturn(Boolean.FALSE);
@@ -188,7 +190,7 @@ class MedikamentServiceTest {
 
     @ParameterizedTest
     @MethodSource("getInvalidValuesForReduceVorratTest")
-    void TestLimitExceededExceptionReduceVorratAfterOrder(int[] data) {
+    void testLimitExceededExceptionReduceVorratAfterOrder(int[] data) {
         //given
         Long id = 12345678L;
         Medikament med = new Medikament(
@@ -206,11 +208,10 @@ class MedikamentServiceTest {
         //then
         Assertions.assertThrows(LimitExceededException.class,
                 () -> {testedMedikamentService.reduceVorratAfterOrder(id, ordervolume);});
-
     }
 
     @Test
-    void TestNotFoundExceptionInIncreaseVorrat() {
+    void testNotFoundExceptionInIncreaseVorrat() {
         //given
         Long id = 12345678L;
         BDDMockito.given(mockedMedRepository.existsById(id)).willReturn(Boolean.FALSE);
@@ -220,7 +221,7 @@ class MedikamentServiceTest {
     }
 
     @Test
-    void TestValidIncreaseVorrat() throws InstanceNotFoundException {
+    void testValidIncreaseVorrat() throws InstanceNotFoundException {
         //given
         Long id = 12345678L;
         int extra = 1;
