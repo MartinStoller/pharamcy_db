@@ -38,9 +38,8 @@ I copied the code from here and subsequently simplified it as much as possible.
 https://stackoverflow.com/questions/56738655/requestparam-javax-validation-junit-rest-controller-testing
 ______________________________________________________________________________________________________________________
 @Transactional
-If we use setter in a transactional class, the changes made to the object are directly transfered to the DB as well.
-Also allows multiple requests to be handled and Rollback(= back to the status before execution at runtime if something
-fails during the execution.
+Used with methods, which make multiple changes to the data, so that when one function fails, there is a rollback. 
+https://javaeeblog.wordpress.com/2019/02/01/transaktionssteuerung-mit-transactional/
 _______________________________________________________________________________________________________________________
 How to name Rest API URLs:
 https://medium.com/@mwaysolutions/10-best-practices-for-better-restful-api-cbe81b06f291
