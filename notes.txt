@@ -40,6 +40,7 @@ ________________________________________________________________________________
 @Transactional
 Used with methods, which make multiple changes to the data, so that when one function fails, there is a rollback. 
 https://javaeeblog.wordpress.com/2019/02/01/transaktionssteuerung-mit-transactional/
+ADDITIONAL EFFECT: When Objects are loaded from the DB and modified (e.g. via setter) those changes are automatically persisted to the DB
 _______________________________________________________________________________________________________________________
 How to name Rest API URLs:
 https://medium.com/@mwaysolutions/10-best-practices-for-better-restful-api-cbe81b06f291
