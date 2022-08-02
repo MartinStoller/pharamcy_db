@@ -1,0 +1,8 @@
+#stages: #define which stages there are in the pipeline
+    #-maven_install
+    #-unit_testing
+
+run_unit_tests: #name of the job
+    image: maven:3.8.4-openjdk-17 #docker image based on which the following script will be executed
+    script: #list of comments that should be executed
+        - mvn test
